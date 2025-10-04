@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Five Big Villains - Ocean Pollutants</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: oceanWave 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes oceanWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 海洋泡泡动画 */
+        .bubble {
+            position: fixed;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+            z-index: 1;
+        }
+
+        @keyframes rise {
+            to {
+                bottom: 110%;
+                transform: translateX(100px);
+            }
+        }
+
+        .bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 12s; }
+        .bubble:nth-child(2) { width: 60px; height: 60px; left: 20%; animation-duration: 14s; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 30px; height: 30px; left: 35%; animation-duration: 10s; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 50px; height: 50px; left: 50%; animation-duration: 13s; animation-delay: 1s; }
+        .bubble:nth-child(5) { width: 45px; height: 45px; left: 65%; animation-duration: 11s; animation-delay: 3s; }
+        .bubble:nth-child(6) { width: 35px; height: 35px; left: 80%; animation-duration: 12s; animation-delay: 5s; }
+        .bubble:nth-child(7) { width: 55px; height: 55px; left: 90%; animation-duration: 14s; animation-delay: 2s; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3.5em;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
+            animation: glow 2s ease-in-out infinite alternate;
+            font-weight: bold;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff, 0 0 80px #00ffff;
+            }
+            to {
+                text-shadow: 0 0 30px #ff00ff, 0 0 50px #ff00ff, 0 0 70px #ff00ff, 0 0 90px #ff00ff;
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .chart-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-box:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .chart-box:nth-child(2) {
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+            animation: sparkle 3s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                text-shadow: 0 0 10px rgba(102, 126, 234, 0.5),
+                            -2px -2px 5px rgba(255, 215, 0, 0.8),
+                            2px 2px 5px rgba(255, 105, 180, 0.8);
+            }
+            25% {
+                text-shadow: 0 0 15px rgba(102, 126, 234, 0.8),
+                            2px -2px 8px rgba(255, 105, 180, 1),
+                            -2px 2px 8px rgba(255, 215, 0, 1);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(102, 126, 234, 1),
+                            -2px 2px 10px rgba(0, 255, 255, 1),
+                            2px -2px 10px rgba(255, 0, 255, 1);
+            }
+            75% {
+                text-shadow: 0 0 15px rgba(102, 126, 234, 0.8),
+                            2px 2px 8px rgba(255, 215, 0, 1),
+                            -2px -2px 8px rgba(255, 105, 180, 1);
+            }
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        .legend-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .legend-title {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 25px;
+            font-weight: bold;
+            animation: sparkle 3s linear infinite;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideIn 1s ease-out;
+        }
+
+        .legend-item:hover {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .legend-item:nth-child(1) { animation-delay: 0.1s; }
+        .legend-item:nth-child(2) { animation-delay: 0.2s; }
+        .legend-item:nth-child(3) { animation-delay: 0.3s; }
+        .legend-item:nth-child(4) { animation-delay: 0.4s; }
+        .legend-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .legend-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            margin-right: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+
+        .legend-content {
+            flex: 1;
+        }
+
+        .legend-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-percentage {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .legend-description {
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .wave-emoji {
+            display: inline-block;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+
+        @media (max-width: 968px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+        }
+
+        /* 鱼群动画 */
+        .fish {
+            position: fixed;
+            font-size: 2em;
+            animation: swim 20s linear infinite;
+            z-index: 5;
+        }
+
+        @keyframes swim {
+            from {
+                left: -100px;
+                transform: scaleX(1);
+            }
+            49% {
+                transform: scaleX(1);
+            }
+            50% {
+                transform: scaleX(-1);
+            }
+            to {
+                left: calc(100% + 100px);
+                transform: scaleX(-1);
+            }
+        }
+
+        .fish:nth-child(odd) {
+            top: 15%;
+            animation-duration: 25s;
+        }
+
+        .fish:nth-child(even) {
+            top: 75%;
+            animation-duration: 30s;
+            animation-delay: 5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- 海洋泡泡泡泡 -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <!-- 游动的鱼 -->
+    <div class="fish">🐠</div>
+    <div class="fish">🐟</div>
+
+    <div class="container">
+        <h1>🌊 The Five Big Villains 🌊</h1>
+        <p class="subtitle">Five Approximate Proportions of Major Ocean Pollutants <span class="wave-emoji">🌊</span></p>
+
+        <div class="charts-container">
+            <div class="chart-box">
+                <h2 class="chart-title">⭐ Pie Chart ⭐</h2>
+                <canvas id="pieChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h2 class="chart-title">⭐ Bar Chart ⭐</h2>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <div class="legend-container">
+            <h2 class="legend-title">🐋 Pollutant Details 🐋</h2>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E);"></div>
+                <div class="legend-content">
+                    <div class="legend-name">🛍️ Plastic Waste</div>
+                    <div class="legend-percentage">80%</div>
+                    <div class="legend-description">Plastic bags, bottles, fishing nets, straws. Animals eat them by mistake or get tangled up.</div>
+                </div>
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #4ECDC4, #44A19D);"></div>
+                <div class="legend-content">
+                    <div class="legend-name">🛢️ Black Oil Slicks</div>
+                    <div class="legend-percentage">7%</div>
+                    <div class="legend-description">Oil spills from ships. Like a thick "oil blanket" covering the sea surface.</div>
+                </div>
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #95E1D3, #78CFC5);"></div>
+                <div class="legend-content">
+                    <div class="legend-name">⚡ Heavy Metal</div>
+                    <div class="legend-percentage">2%</div>
+                    <div class="legend-description">Batteries, metallic items. Act like invisible poison in the water.</div>
+                </div>
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #F38181, #E85A5A);"></div>
+                <div class="legend-content">
+                    <div class="legend-name">☠️ Toxic Chemicals</div>
+                    <div class="legend-percentage">3%</div>
+                    <div class="legend-description">Wastewater from factories, pesticides. Highly poisonous and toxic.</div>
+                </div>
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #A8E6CF, #7ED9B1);"></div>
+                <div class="legend-content">
+                    <div class="legend-name">🌿 Nutrient Pollution</div>
+                    <div class="legend-percentage">8%</div>
+                    <div class="legend-description">Food waste, chemical fertilizers. Makes algae grow out of control.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 数据设置
+        const pollutants = {
+            labels: ['Plastic Waste 🛍️', 'Black Oil Slicks 🛢️', 'Heavy Metal ⚡', 'Toxic Chemicals ☠️', 'Nutrient Pollution 🌿'],
+            data: [80, 7, 2, 3, 8],
+            colors: [
+                'rgba(255, 107, 107, 0.8)',
+                'rgba(78, 205, 196, 0.8)',
+                'rgba(149, 225, 211, 0.8)',
+                'rgba(243, 129, 129, 0.8)',
+                'rgba(168, 230, 207, 0.8)'
+            ],
+            borderColors: [
+                'rgba(255, 107, 107, 1)',
+                'rgba(78, 205, 196, 1)',
+                'rgba(149, 225, 211, 1)',
+                'rgba(243, 129, 129, 1)',
+                'rgba(168, 230, 207, 1)'
+            ]
+        };
+
+        // 饼图配置
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: pollutants.labels,
+                datasets: [{
+                    data: pollutants.data,
+                    backgroundColor: pollutants.colors,
+                    borderColor: pollutants.borderColors,
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 15,
+                        cornerRadius: 10,
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+
+        // 柱状图配置
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: pollutants.labels,
+                datasets: [{
+                    label: 'Percentage (%)',
+                    data: pollutants.data,
+                    backgroundColor: pollutants.colors,
+                    borderColor: pollutants.borderColors,
+                    borderWidth: 3,
+                    borderRadius: 10,
+                    borderSkipped: false,
+                    hoverBackgroundColor: pollutants.colors.map(color => color.replace('0.8', '1')),
+                    hoverBorderColor: '#fff',
+                    hoverBorderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 15,
+                        cornerRadius: 10,
+                        callbacks: {
+                            label: function(context) {
+                                return 'Percentage: ' + context.parsed.y + '%';
+                            },
+                            afterLabel: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((context.parsed.y / total) * 100);
+                                return '占比: ' + percentage + '%';
+                            }
+                        }
+                    },
+                    // 添加柱状图顶部标签
+                    datalabels: {
+                        color: '#667eea',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        anchor: 'end',
+                        align: 'end',
+                        formatter: function(value) {
+                            return value + '%';
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            },
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            color: '#667eea'
+                        },
+                        grid: {
+                            color: 'rgba(102, 126, 234, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            },
+                            color: '#667eea'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutBounce'
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // 图表动画效果
+        setInterval(() => {
+            pieChart.update('none');
+            barChart.update('none');
+        }, 100);
+    </script>
+</body>
+</html>
